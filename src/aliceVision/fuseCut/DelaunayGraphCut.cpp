@@ -1332,27 +1332,31 @@ bool DelaunayGraphCut::rayCellIntersection(const Point3d& camCenter, const Point
     const Point3d* D = &(_verticesCoords[_tetrahedralization->cell_vertex(tetrahedronIndex, 3)]);
 
     // All the facets of the tetrahedron
-    std::array<std::array<const Point3d*, 3>, 4> facets {{
-        {B, C, D}, // opposite vertex A, index 0
-        {A, C, D}, // opposite vertex B, index 1
-        {A, B, D}, // opposite vertex C, index 2
-        {A, B, C}  // opposite vertex D, index 3
+    std::unordered_map<GEO::index_t, std::array<const Point3d*, 3>> facets{{
+        {0, {B, C, D}}, // opposite vertex A, index 0
+        {1, {A, C, D}}, // opposite vertex B, index 1
+        {2, {A, B, D}}, // opposite vertex C, index 2
+        {3, {A, B, C}}  // opposite vertex D, index 3
     }};
-    int oppositeVertexIndex = -1;
+
+    GEO::index_t oppositeVertexIndex = GEO::NO_VERTEX;
     Point3d intersectPt;
     double intersectDist;
+
     // Test all facets of the tetrahedron
-    for(int i = 0; i < 4; ++i)
+    for(const auto& facetPair : facets)
     {
-        const auto& facet= facets[i];
-        if(isLineInTriangle(&intersectPt, facet[0], facet[1], facet[2], &linePoint, &lineVect))
+        const auto& facetVertex = facetPair.second;
+        if(isLineInTriangle(&intersectPt, facetVertex[0], facetVertex[1], facetVertex[2], &linePoint, &lineVect))
         {
             intersectDist = (camCenter - intersectPt).size();
+
             // between the camera and the point if nearestFarest == true
             // behind the point (from the camera) if nearestFarest == false
             if(nearestFarest ? (intersectDist < currentDist) : (intersectDist > currentDist))
             {
-                oppositeVertexIndex = i;
+                // First in facetPair corresponds to the index of the opposite vertex used to define the facet
+                oppositeVertexIndex = facetPair.first;
                 existsTriOnRay = true;
                 currentDist = intersectDist;
                 outIntersectPt = intersectPt;
