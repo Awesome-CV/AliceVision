@@ -1376,7 +1376,7 @@ DelaunayGraphCut::Facet DelaunayGraphCut::getFacetFromVertexOnTheRayToTheCam(Ver
 {
     if((cam < 0) || (cam >= mp->ncams))
     {
-        ALICEVISION_LOG_WARNING("Bad camId, cam: " << cam << ", ptid: " << vertexIndex);
+        ALICEVISION_LOG_WARNING("Bad camId, cam: " << std::to_string(cam) << ", ptid: " << vertexIndex);
     }
     const Point3d& p = _verticesCoords[vertexIndex];
 
