@@ -234,6 +234,17 @@ public:
         return localCells[lvi];
     }
 
+    /**
+     * @brief Retrieves the global indexes of neighboring cells using the global index of a vertex.
+     * 
+     * @param vi the global vertexIndex
+     * @return a vector of neighboring cell indexes
+     */
+    inline std::vector<CellIndex> getNeighboringCellsByVertexIndex(VertexIndex vi) const
+    {
+        return _neighboringCellsPerVertex.at(vi);
+    }
+
     void initVertices();
     void computeDelaunay();
     void initCells();
@@ -269,7 +280,7 @@ public:
     bool rayCellIntersection(const Point3d& camCenter, const Point3d& p, GEO::index_t tetrahedronIndex, Facet& outFacet,
                              bool nearestFarest, Point3d& outIntersectPt) const;
 
-    Facet getFacetFromVertexOnTheRayToTheCam(VertexIndex vertexIndex, int cam, bool nearestFarest) const;
+    Facet getFacetFromVertexOnTheRayToTheCam(VertexIndex globalVertexIndex, int cam, bool nearestFarest) const;
     GEO::index_t getFirstCellOnTheRayFromCamToThePoint(int cam, Point3d& p, Point3d& lpi) const;
 
     float distFcn(float maxDist, float dist, float distFcnHeight) const;
