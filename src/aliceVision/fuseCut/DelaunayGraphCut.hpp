@@ -251,18 +251,17 @@ public:
 
     void addPointsFromSfM(const Point3d hexah[8], const StaticVector<int>& cams, const sfmData::SfMData& sfmData);
     void addPointsFromCameraCenters(const StaticVector<int>& cams, float minDist);
-    void addPointsToPreventSingularities(const Point3d Voxel[], float minDist);
+    void addPointsToPreventSingularities(const Point3d Voxel[8], float minDist);
 
     /**
      * @brief Add volume points to prevent singularities
      */
-    void addHelperPoints(int nGridHelperVolumePointsDim, const Point3d Voxel[], float minDist);
+    void addHelperPoints(int nGridHelperVolumePointsDim, const Point3d Voxel[8], float minDist);
 
     void fuseFromDepthMaps(const StaticVector<int>& cams, const Point3d voxel[8], const FuseParams& params);
     void loadPrecomputedDensePoints(const StaticVector<int>* voxelsIds, const Point3d voxel[8], VoxelsGrid* ls);
 
-    void createTetrahedralizationFromDepthMapsCamsVoxel(const StaticVector<int>& allCams,
-                                                   StaticVector<int>* voxelsIds, Point3d Voxel[8], VoxelsGrid* ls);
+    // void createTetrahedralizationFromDepthMapsCamsVoxel(const StaticVector<int>& allCams, StaticVector<int>* voxelsIds, Point3d Voxel[8], VoxelsGrid* ls);
 
     void computeVerticesSegSize(bool allPoints, float alpha = 0.0f);
     void removeSmallSegs(int minSegSize);
@@ -280,7 +279,7 @@ public:
     double maxEdgeLength() const;
     Point3d cellCircumScribedSphereCentre(CellIndex ci) const;
     double getFaceWeight(const Facet &f1) const;
-    float weightFromSim(float sim);
+    // float weightFromSim(float sim);
 
     float weightFcn(float nrc, bool labatutWeights, int ncams);
 
@@ -326,11 +325,11 @@ public:
 
     void graphCutPostProcessing();
 
-    void clearAllPointsInFreeSpace();
-    void clearAllPointsNotOnSurface();
-    void addNewPointsToOccupiedSpace();
-    void clearOutAddIn();
-    StaticVector<int>* getNearestTrisFromMeshTris(mesh::Mesh* otherMesh);
+    // void clearAllPointsInFreeSpace();
+    // void clearAllPointsNotOnSurface();
+    // void addNewPointsToOccupiedSpace();
+    // void clearOutAddIn();
+    // StaticVector<int>* getNearestTrisFromMeshTris(mesh::Mesh* otherMesh);
 
     void segmentFullOrFree(bool full, StaticVector<int>** inColors, int& nsegments);
     int removeBubbles();
